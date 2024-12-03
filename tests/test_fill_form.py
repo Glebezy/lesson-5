@@ -4,7 +4,10 @@ from selene import browser, have, be
 
 
 def test_fill_form():
-    browser.open(browser.config.base_url)
+    browser.open('')
+    browser.driver.execute_script("$('#fixedban').remove()")
+    browser.driver.execute_script("$('footer').remove()")
+
     browser.should(have.title_containing('DEMOQA'))
 
     browser.element('[id="firstName"]').clear().type('John')
@@ -13,7 +16,7 @@ def test_fill_form():
 
     browser.element('[id="userEmail"]').clear().type('gte@mail.com')
 
-    browser.element('label[for="gender-radio-1"]').click()
+    browser.element('//label[text()="Male"]').click()
 
     browser.element('[id="userNumber"]').clear().type('1234567890')
 
@@ -25,20 +28,20 @@ def test_fill_form():
     (browser.element('.react-datepicker__day').should(be.visible)
      .element('//*[text()="7"]').click())
 
-    (browser.element('[id="subjectsInput"]').clear().type('Eng'))
+    browser.element('[id="subjectsInput"]').clear().type('Eng')
     browser.element('.subjects-auto-complete__option').element('//*[text()="English"]').click()
 
-    browser.element('label[for="hobbies-checkbox-1"]').click()
+    browser.element('//label[text()="Sports"]').click()
 
     browser.element('[id="uploadPicture"]').send_keys(os.path.abspath('../pic.jpeg'))
 
     browser.element('[id="currentAddress"]').clear().type('123 Main St')
 
-    (browser.element('[id="state"]').click()
-     .element('[id="react-select-3-option-2"]').click())
+    browser.element('[id="state"]').click()
+    browser.element('//*[contains(text(), "Haryana")]').click()
 
-    (browser.element('[id="city"]').click()
-     .element('[id="react-select-4-option-0"]').click())
+    browser.element('[id="city"]').click()
+    browser.element('//*[contains(text(), "Karnal")]').click()
 
     browser.element('[id="submit"]').click()
     browser.element('[class="table-responsive"]').should(be.visible)
